@@ -9,21 +9,22 @@ WORKDIR /opt
 RUN curl http://mirrors.syringanetworks.net/eclipse/technology/epp/downloads/release/2019-06/R/eclipse-jee-2019-06-R-linux-gtk-x86_64.tar.gz --output eclipse-jee-2019-06-R-linux-gtk-x86_64.tar && \
     tar -xf eclipse-jee-2019-06-R-linux-gtk-x86_64.tar && \
     rm eclipse-jee-2019-06-R-linux-gtk-x86_64.tar && \
-    alias eclipse='/opt/eclipse/eclipse'
+    echo "alias eclipse='/opt/eclipse/eclipse'" >> /root/.bash_aliases
 
 # Google Chrome
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
     echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | tee /etc/apt/sources.list.d/google-chrome.list && \
     apt-get update && \
     apt-get install -y google-chrome-stable && \
-    alias chrome='/opt/google/chrome/chrome --no-sandbox'
+    echo "alias chrome='/opt/google/chrome/chrome --no-sandbox'" >> /root/.bash_aliases
 
 
 # VSCode
 RUN wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | apt-key add - && \
     echo 'deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main' | tee /etc/apt/sources.list.d/vscode.list && \
     apt-get update && \
-    apt-get install -y code
+    apt-get install -y code && \
+    echo "alias code='code --user-data-dir=/tmp/vscode'" >> /root/.bash_aliases
 
 # SSH Server
 RUN apt-get install -y openssh-server && \
